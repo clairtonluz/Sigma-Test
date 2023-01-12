@@ -1,5 +1,7 @@
-package com.clairtonluz.sigmatest.transactions;
+package com.clairtonluz.sigmatest.controllers;
 
+import com.clairtonluz.sigmatest.transactions.Transaction;
+import com.clairtonluz.sigmatest.transactions.TransactionDTO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

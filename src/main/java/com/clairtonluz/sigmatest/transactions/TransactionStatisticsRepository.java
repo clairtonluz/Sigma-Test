@@ -4,4 +4,6 @@ public interface TransactionStatisticsRepository {
     void add(Transaction transaction);
 
     TransactionStatistics getStatistics();
+
+    void calculate();
 }

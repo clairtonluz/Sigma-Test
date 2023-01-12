@@ -32,14 +32,13 @@ public class TransactionStatisticsRepositoryImpl implements TransactionStatistic
     }
 
     @Override
-    public void add(Transaction transaction) {
+    public synchronized void add(Transaction transaction) {
         transactions.add(transaction);
-        calculate();
+        new Thread(this::calculate).start();
     }
 
     @Override
     public TransactionStatistics getStatistics() {
-        calculate();
         return statistics;
     }
 
@@ -48,35 +47,36 @@ public class TransactionStatisticsRepositoryImpl implements TransactionStatistic
         transactions.removeIf(transaction -> transaction.getTimestamp().isBefore(timestampLimit));
     }
 
-    private void calculate() {
-        new Thread(() -> {
-            removeOldTransactions();
-            if (transactions.size() == 0) {
-                resetStatistics();
-                return;
-            }
+    @Override
+    public synchronized void calculate() {
+        removeOldTransactions();
+        if (transactions.size() == 0) {
+            resetStatistics();
+            return;
+        }
 
-            var count = new BigDecimal(transactions.size());
-            var sum = new BigDecimal(0);
-            BigDecimal max = new BigDecimal(0);
-            BigDecimal min = null;
+        var count = new BigDecimal(transactions.size());
+        BigDecimal sum = new BigDecimal(0);
+        BigDecimal max = new BigDecimal(0);
+        BigDecimal min = null;
 
-            for (var transaction : transactions) {
-                var amount = transaction.getAmount();
-                sum = sum.add(amount);
-                max = max.max(amount);
-                min = min == null ? amount : min.min(amount);
-            }
-            var avg = sum.divide(count, RoundingMode.HALF_UP);
 
-            if (min == null) min = new BigDecimal(0);
+        for (var transaction : transactions) {
+            var amount = transaction.getAmount();
+            sum = sum.add(amount);
+            max = max.max(amount);
+            min = min == null ? amount : min.min(amount);
+        }
 
-            this.statistics = new TransactionStatistics(
-                    sum.setScale(2, RoundingMode.HALF_UP).toString(),
-                    avg.setScale(2, RoundingMode.HALF_UP).toString(),
-                    max.setScale(2, RoundingMode.HALF_UP).toString(),
-                    min.setScale(2, RoundingMode.HALF_UP).toString(),
-                    count.longValue());
-        }).start();
+        var avg = sum.divide(count, RoundingMode.HALF_UP);
+
+        if (min == null) min = new BigDecimal(0);
+
+        this.statistics = new TransactionStatistics(
+                sum.setScale(2, RoundingMode.HALF_UP).toString(),
+                avg.setScale(2, RoundingMode.HALF_UP).toString(),
+                max.setScale(2, RoundingMode.HALF_UP).toString(),
+                min.setScale(2, RoundingMode.HALF_UP).toString(),
+                count.longValue());
     }
 }
