@@ -53,6 +53,7 @@ class TransactionServiceImplTest {
 
         Assertions.assertEquals("The fields are not parsable", exception.getMessage());
     }
+
     @Test
     void addInvalidTimestamp() {
         var transactionDTO = new TransactionDTO();
@@ -79,17 +80,27 @@ class TransactionServiceImplTest {
 
         Mockito.verify(transactionRepository, Mockito.times(5))
                 .add(Mockito.any(Transaction.class));
+        Mockito.verify(transactionValidator, Mockito.times(5))
+                .validar(Mockito.any(Transaction.class));
+
+        var expected = new TransactionStatistics("", "", "", "", 5L);
+        Mockito.when(transactionRepository.getStatistics())
+                .thenReturn(expected);
+
         var statistics = transactionService.getStatistics();
+
         Assertions.assertNotNull(statistics);
-        Assertions.assertEquals(5, statistics.count());
-        Assertions.assertEquals("26179.63", statistics.sum());
-        Assertions.assertEquals("5235.93", statistics.avg());
-        Assertions.assertEquals("8307.70", statistics.max());
-        Assertions.assertEquals("2714.20", statistics.min());
+        Assertions.assertEquals(expected.count(), statistics.count());
+        Assertions.assertEquals(expected.sum(), statistics.sum());
+        Assertions.assertEquals(expected.avg(), statistics.avg());
+        Assertions.assertEquals(expected.max(), statistics.max());
+        Assertions.assertEquals(expected.min(), statistics.min());
     }
 
     @Test
     void deleteAll() {
         transactionService.deleteAll();
+        Mockito.verify(transactionRepository, Mockito.times(1))
+                .deleteAll();
     }
 }
