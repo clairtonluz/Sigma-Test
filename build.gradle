@@ -33,9 +33,6 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
-}
-
-test {
     finalizedBy jacocoTestReport // report is always generated after tests run
 }
 
