@@ -50,6 +50,10 @@ jacocoTestReport {
     }
 }
 
+tasks.named('sonar') {
+    dependsOn 'test'
+}
+
 sonarqube {
     properties {
         property "sonar.projectKey", "clairtonluz_Sigma-Test"
