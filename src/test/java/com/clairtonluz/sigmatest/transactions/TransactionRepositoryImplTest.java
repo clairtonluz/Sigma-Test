@@ -1,11 +1,13 @@
 package com.clairtonluz.sigmatest.transactions;
 
+import org.awaitility.Awaitility;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 class TransactionRepositoryImplTest {
@@ -18,7 +20,7 @@ class TransactionRepositoryImplTest {
     }
 
     @Test
-    void getStatistics() throws InterruptedException {
+    void getStatistics() {
         Stream.of("6703.2542", "8307.6975", "3468.4957", "2714.1956", "4985.9903")
                 .map(amount -> {
                     var transaction = new Transaction();
@@ -28,7 +30,10 @@ class TransactionRepositoryImplTest {
                 })
                 .forEach(transaction -> transactionRepository.add(transaction));
 
-        Thread.sleep(50);
+
+        Awaitility.await().atMost(500, TimeUnit.MILLISECONDS)
+                .until(() -> transactionRepository.getStatistics().count() == 5);
+
         var statistics = transactionRepository.getStatistics();
         Assertions.assertNotNull(statistics);
         Assertions.assertEquals(5, statistics.count());
