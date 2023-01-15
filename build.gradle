@@ -60,6 +60,6 @@ sonarqube {
         property "sonar.projectKey", "clairtonluz_Sigma-Test"
         property "sonar.organization", "clairtonluz"
         property "sonar.host.url", "https://sonarcloud.io"
-        property "sonar.exclusions", "**/SigmatestApplication.java"
+        property "sonar.coverage.exclusions", "**/SigmatestApplication.java"
     }
 }
