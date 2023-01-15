@@ -2,12 +2,14 @@ package com.clairtonluz.sigmatest.core.config;
 
 import com.clairtonluz.sigmatest.core.exceptions.NoContentException;
 import com.clairtonluz.sigmatest.core.exceptions.UnprocessableEntityException;
+import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+@Hidden
 @ControllerAdvice
 public class GlobalErrorHandler {
 
