@@ -50,7 +50,7 @@ public class TransactionRepositoryImpl implements TransactionRepository {
     @Override
     public synchronized void calculate() {
         removeOldTransactions();
-        if (transactions.size() == 0) {
+        if (transactions.isEmpty()) {
             resetStatistics();
             return;
         }

@@ -1,5 +1,11 @@
 # Sigma-Test
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=clairtonluz_Sigma-Test&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=clairtonluz_Sigma-Test)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=clairtonluz_Sigma-Test&metric=coverage)](https://sonarcloud.io/summary/new_code?id=clairtonluz_Sigma-Test)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=clairtonluz_Sigma-Test&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=clairtonluz_Sigma-Test)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=clairtonluz_Sigma-Test&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=clairtonluz_Sigma-Test)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=clairtonluz_Sigma-Test&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=clairtonluz_Sigma-Test)
+
 ## How to run this application
 
 ### Using docker `(Require Docker installed)`

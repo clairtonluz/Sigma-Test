@@ -25,7 +25,7 @@ class TransactionValidatorTest {
         var transaction = new Transaction();
         transaction.setAmount(new BigDecimal("12.34"));
         transaction.setTimestamp(Instant.now());
-        transactionValidator.validar(transaction);
+        Assertions.assertDoesNotThrow(() -> transactionValidator.validar(transaction));
     }
 
     @Test
