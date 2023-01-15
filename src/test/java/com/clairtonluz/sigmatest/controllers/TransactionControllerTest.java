@@ -14,6 +14,8 @@ import java.math.BigDecimal;
 import java.net.URI;
 import java.time.Instant;
 
+import static com.clairtonluz.sigmatest.transactions.TransactionValidator.MAX_OLDER_IN_SEC;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class TransactionControllerTest {
     @Value(value = "http://localhost:${local.server.port}/transactions")
@@ -32,6 +34,7 @@ class TransactionControllerTest {
 
         Assertions.assertEquals(HttpStatus.CREATED.value(), response.getStatusCode().value());
     }
+
     @Test
     void addTransactionsInTheFuture() {
         var amount = new BigDecimal("12.213");
@@ -68,6 +71,14 @@ class TransactionControllerTest {
         var response = this.restTemplate.postForEntity(apiUrl, transactionDto, Transaction.class);
 
         Assertions.assertEquals(HttpStatus.UNPROCESSABLE_ENTITY.value(), response.getStatusCode().value());
+    }
+
+    @Test
+    void addTransactionsExceedLimitTimestamp() {
+        var transactionDto = new TransactionDTO("12.213", Instant.now().minusSeconds(MAX_OLDER_IN_SEC + 1).toString());
+        var response = this.restTemplate.postForEntity(apiUrl, transactionDto, Transaction.class);
+
+        Assertions.assertEquals(HttpStatus.NO_CONTENT.value(), response.getStatusCode().value());
     }
 
 

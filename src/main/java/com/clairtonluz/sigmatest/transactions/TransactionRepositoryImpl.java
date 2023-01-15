@@ -58,19 +58,17 @@ public class TransactionRepositoryImpl implements TransactionRepository {
         var count = new BigDecimal(transactions.size());
         BigDecimal sum = new BigDecimal(0);
         BigDecimal max = new BigDecimal(0);
-        BigDecimal min = null;
+        BigDecimal min = new BigDecimal(Long.MAX_VALUE);
 
 
         for (var transaction : transactions) {
             var amount = transaction.getAmount();
             sum = sum.add(amount);
             max = max.max(amount);
-            min = min == null ? amount : min.min(amount);
+            min = min.min(amount);
         }
 
         var avg = sum.divide(count, RoundingMode.HALF_UP);
-
-        if (min == null) min = new BigDecimal(0);
 
         this.statistics = new TransactionStatistics(
                 sum.setScale(2, RoundingMode.HALF_UP).toString(),
