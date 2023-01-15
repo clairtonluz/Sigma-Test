@@ -51,6 +51,10 @@ tasks.named('sonar') {
     dependsOn 'test'
 }
 
+tasks.named('sonarqube') {
+    dependsOn 'test'
+}
+
 sonarqube {
     properties {
         property "sonar.projectKey", "clairtonluz_Sigma-Test"
