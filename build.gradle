@@ -45,14 +45,16 @@ jacoco {
 
 jacocoTestReport {
     dependsOn test
-    afterEvaluate {
-        classDirectories.setFrom(files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: [
-                    "**/SigmatestApplication.class"
-            ])
-        }))
-    }
     reports {
         xml.enabled true
+    }
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "clairtonluz_Sigma-Test"
+        property "sonar.organization", "clairtonluz"
+        property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.exclusions", "**/SigmatestApplication.java"
     }
 }
