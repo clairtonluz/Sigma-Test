@@ -1,5 +1,19 @@
 # Sigma-Test
 
+## How to run this application
+
+### Using docker `(Require Docker installed)`
+```shell
+docker compose up
+```
+
+### Using shell `(Require JDK 17 installed)`
+```shell
+ ./gradlew bootRun
+```
+
+
+## Requirements
 We would like to have a RESTful API for our statistics. The main use case for the API is to calculate realtime statistics for the last 60 seconds of transactions.
 
 The API needs the following endpoints:
