@@ -8,13 +8,13 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.stream.Stream;
 
-class TransactionStatisticsRepositoryImplTest {
+class TransactionRepositoryImplTest {
 
-    private TransactionStatisticsRepository transactionStatisticsRepository;
+    private TransactionRepository transactionRepository;
 
     @BeforeEach
     void setUp() {
-        transactionStatisticsRepository = new TransactionStatisticsRepositoryImpl();
+        transactionRepository = new TransactionRepositoryImpl();
     }
 
     @Test
@@ -26,10 +26,10 @@ class TransactionStatisticsRepositoryImplTest {
                     transaction.setTimestamp(Instant.now());
                     return transaction;
                 })
-                .forEach(transaction -> transactionStatisticsRepository.add(transaction));
+                .forEach(transaction -> transactionRepository.add(transaction));
 
         Thread.sleep(50);
-        var statistics = transactionStatisticsRepository.getStatistics();
+        var statistics = transactionRepository.getStatistics();
         Assertions.assertNotNull(statistics);
         Assertions.assertEquals(5, statistics.count());
         Assertions.assertEquals("26179.63", statistics.sum());

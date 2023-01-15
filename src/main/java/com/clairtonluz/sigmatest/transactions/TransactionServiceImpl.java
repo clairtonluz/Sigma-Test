@@ -11,14 +11,14 @@ import java.time.format.DateTimeParseException;
 public class TransactionServiceImpl implements TransactionService {
 
     private final TransactionValidator transactionValidator;
-    private final TransactionStatisticsRepository transactionStatisticsRepository;
+    private final TransactionRepository transactionRepository;
 
     @Override
     public void add(TransactionDTO transactionDTO) {
         try {
             var transaction = transactionDTO.toTransaction();
             transactionValidator.validar(transaction);
-            transactionStatisticsRepository.add(transaction);
+            transactionRepository.add(transaction);
         } catch (NumberFormatException | DateTimeParseException e) {
             throw new UnprocessableEntityException("The fields are not parsable");
         }
@@ -26,6 +26,11 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public TransactionStatistics getStatistics() {
-        return transactionStatisticsRepository.getStatistics();
+        return transactionRepository.getStatistics();
+    }
+
+    @Override
+    public void deleteAll() {
+        transactionRepository.deleteAll();
     }
 }

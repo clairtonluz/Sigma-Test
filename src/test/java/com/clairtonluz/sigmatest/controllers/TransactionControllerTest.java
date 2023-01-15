@@ -69,4 +69,13 @@ class TransactionControllerTest {
 
         Assertions.assertEquals(HttpStatus.UNPROCESSABLE_ENTITY.value(), response.getStatusCode().value());
     }
+
+
+    @Test
+    void deleteAll() {
+        RequestEntity<?> requestEntity = new RequestEntity<>(HttpMethod.DELETE, URI.create(apiUrl));
+        var response = this.restTemplate.exchange(requestEntity, String.class);
+
+        Assertions.assertEquals(HttpStatus.NO_CONTENT.value(), response.getStatusCode().value());
+    }
 }

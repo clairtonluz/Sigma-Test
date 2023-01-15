@@ -12,11 +12,11 @@ import java.util.List;
 
 @Repository
 @ApplicationScope
-public class TransactionStatisticsRepositoryImpl implements TransactionStatisticsRepository {
+public class TransactionRepositoryImpl implements TransactionRepository {
     List<Transaction> transactions = Collections.synchronizedList(new LinkedList<>());
     TransactionStatistics statistics;
 
-    public TransactionStatisticsRepositoryImpl() {
+    public TransactionRepositoryImpl() {
         resetStatistics();
     }
 
@@ -78,5 +78,11 @@ public class TransactionStatisticsRepositoryImpl implements TransactionStatistic
                 max.setScale(2, RoundingMode.HALF_UP).toString(),
                 min.setScale(2, RoundingMode.HALF_UP).toString(),
                 count.longValue());
+    }
+
+    @Override
+    public void deleteAll() {
+        transactions = Collections.synchronizedList(new LinkedList<>());
+        calculate();
     }
 }

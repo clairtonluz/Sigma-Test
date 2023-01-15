@@ -7,11 +7,11 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class TransactionStatisticsScheduler {
-    private final TransactionStatisticsRepository transactionStatisticsRepository;
+    private final TransactionRepository transactionRepository;
 
     @Scheduled(fixedRate = 1000)
     public void refreshStatistics() {
-        transactionStatisticsRepository.calculate();
+        transactionRepository.calculate();
     }
 
 }

@@ -5,4 +5,6 @@ public interface TransactionService {
     void add(TransactionDTO transactionDTO);
 
     TransactionStatistics getStatistics();
+
+    void deleteAll();
 }
